@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Quest: The Alchemist's Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0c1b;
+            color: #e0e7ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            overflow-x: hidden;
+            touch-action: none;
+        }
+
+        .game-container {
+            position: relative;
+            background: radial-gradient(circle at center, #1b213b 0%, #0d0d1a 100%);
+            border-radius: 1.5rem;
+            box-shadow: 0 0 4rem rgba(100, 100, 255, 0.25);
+            padding: 1.5rem;
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        canvas {
+            border-radius: 1rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            background-color: #0d0d1a;
+            width: 100%;
+            aspect-ratio: 1.5 / 1;
+            touch-action: none;
+        }
+        
+        .ui-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        
+        .info-box {
+            background-color: #1a1e36;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            flex-grow: 1;
+            min-width: 150px;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+        }
+        
+        .info-label {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        .info-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #e0e7ff;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            background-color: #6d28d9;
+            color: white;
+            flex-grow: 1;
+            min-width: 120px;
+        }
+
+        .btn:hover {
+            background-color: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:disabled {
+            background-color: #4a4a6e;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background-color: #1a1e36;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            box-shadow: 0 0 3rem rgba(100, 100, 255, 0.5);
+            max-width: 90%;
+            color: #e0e7ff;
+        }
+
+        .particle-effect {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: fadeOut 0.75s forwards;
+            pointer-events: none;
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(2); }
+        }
+
+        .shake-animation {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        #gameCanvas {
+            cursor: none;
+        }
+        
+        .gemini-summary {
+            background-color: #0d0d1a;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: left;
+            margin-top: 1.5rem;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+            white-space: pre-wrap;
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1 class="text-3xl font-bold mb-4">Gold Quest: The Alchemist's Journey</h1>
+        <p class="text-sm mb-4 text-center text-gray-400 max-w-lg">
+            Collect protons, neutrons, and electrons to build elements. Dodge the black holes and reach Gold. Click or tap to move your atom!
+        </p>
+        <canvas id="gameCanvas"></canvas>
+        <div class="ui-panel">
+            <div class="info-box">
+                <div class="info-label">Current Element</div>
+                <div id="element-name" class="info-value">Hydrogen</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Protons</div>
+                <div id="proton-count" class="info-value">0</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Neutrons</div>
+                <div id="neutron-count" class="info-value">0</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Electrons</div>
+                <div id="electron-count" class="info-value">0</div>
+            </div>
+        </div>
+        <div class="ui-panel">
+            <button id="restart-btn" class="btn hidden">Restart Game</button>
+            <button id="pause-btn" class="btn">Pause</button>
+        </div>
+        <div class="music-controls">
+            <audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" loop autoplay></audio>
+            <button id="music-toggle-btn" class="btn">Pause Music</button>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5" class="w-24">
+        </div>
+    </div>
+
+    <div id="game-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-title" class="text-3xl font-bold mb-4">Gold Quest</h2>
+            <p id="modal-message" class="mb-6 text-gray-300">
+                You are a tiny, unstable atom, and your quest is to build the ultimate element: Gold!
+                <br>
+                Collect the glowing particles floating in space:
+                <br>
+                <span class="text-red-400 font-bold">Protons</span> increase your atomic number.
+                <br>
+                <span class="text-gray-400 font-bold">Neutrons</span> stabilize your nucleus.
+                <br>
+                <span class="text-blue-400 font-bold">Electrons</span> are needed for balance.
+                <br>
+                Avoid the pulsating black holes, or your quest will end!
+            </p>
+            <div id="gemini-summary" class="gemini-summary hidden"></div>
+            <button id="start-btn" class="btn">Start Journey</button>
+        </div>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const modal = document.getElementById('game-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const geminiSummary = document.getElementById('gemini-summary');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+
+        const elementNameEl = document.getElementById('element-name');
+        const protonCountEl = document.getElementById('proton-count');
+        const neutronCountEl = document.getElementById('neutron-count');
+        const electronCountEl = document.getElementById('electron-count');
+
+        // Music controls
+        const bgMusic = document.getElementById('bg-music');
+        const musicToggleBtn = document.getElementById('music-toggle-btn');
+        const volumeSlider = document.getElementById('volume-slider');
+
+        const PROTON_RADIUS = 7;
+        const NEUTRON_RADIUS = 7;
+        const ELECTRON_RADIUS = 6;
+        const ATOM_RADIUS = 15;
+        const INITIAL_SPEED = 2;
+        const MOUSE_SENSITIVITY = 1.5;
+        const PARTICLE_SPAWN_RATE = 100; // milliseconds
+        const BLACK_HOLE_SPAWN_RATE = 2000; // milliseconds
+
+        let gameLoopId;
+        let isGameRunning = false;
+        let isGameOver = false;
+        let isPaused = false;
+        let gameSpeed = INITIAL_SPEED;
+
+        let lastParticleSpawn = 0;
+        let lastBlackHoleSpawn = 0;
+        let lastUpdateTime = 0;
+
+        let targetPosition = { x: 0, y: 0 };
+        let atom = {
+            x: 0,
+            y: 0,
+            radius: ATOM_RADIUS,
+            protons: 0,
+            neutrons: 0,
+            electrons: 0,
+            color: '#e0e7ff',
+        };
+
+        const elements = [
+            { protons: 1, neutrons: 0, electrons: 1, name: "Hydrogen", symbol: "H", color: "#60a5fa" },
+            { protons: 2, neutrons: 2, electrons: 2, name: "Helium", symbol: "He", color: "#f87171" },
+            { protons: 3, neutrons: 4, electrons: 3, name: "Lithium", symbol: "Li", color: "#fcd34d" },
+            { protons: 4, neutrons: 5, electrons: 4, name: "Beryllium", symbol: "Be", color: "#a78bfa" },
+            { protons: 5, neutrons: 6, electrons: 5, name: "Boron", symbol: "B", color: "#34d399" },
+            { protons: 6, neutrons: 6, electrons: 6, name: "Carbon", symbol: "C", color: "#fca5a5" },
+            { protons: 7, neutrons: 7, electrons: 7, name: "Nitrogen", symbol: "N", color: "#bfdbfe" },
+            { protons: 8, neutrons: 8, electrons: 8, name: "Oxygen", symbol: "O", color: "#c084fc" },
+            { protons: 11, neutrons: 12, electrons: 11, name: "Sodium", symbol: "Na", color: "#fcd34d" },
+            { protons: 12, neutrons: 12, electrons: 12, name: "Magnesium", symbol: "Mg", color: "#99f6e4" },
+            // New intermediate elements for better progression
+            { protons: 13, neutrons: 14, electrons: 13, name: "Aluminum", symbol: "Al", color: "#d1d5db" },
+            { protons: 14, neutrons: 14, electrons: 14, name: "Silicon", symbol: "Si", color: "#8b5cf6" },
+            { protons: 15, neutrons: 16, electrons: 15, name: "Phosphorus", symbol: "P", color: "#fb7185" },
+            { protons: 16, neutrons: 16, electrons: 16, name: "Sulfur", symbol: "S", color: "#fcd34d" },
+            { protons: 17, neutrons: 18, electrons: 17, name: "Chlorine", symbol: "Cl", color: "#a78bfa" },
+            { protons: 18, neutrons: 22, electrons: 18, name: "Argon", symbol: "Ar", color: "#93c5fd" },
+            { protons: 19, neutrons: 20, electrons: 19, name: "Potassium", symbol: "K", color: "#818cf8" },
+            { protons: 20, neutrons: 20, electrons: 20, name: "Calcium", symbol: "Ca", color: "#fb923c" },
+            { protons: 26, neutrons: 30, electrons: 26, name: "Iron", symbol: "Fe", color: "#d1d5db" },
+            { protons: 29, neutrons: 35, electrons: 29, name: "Copper", symbol: "Cu", color: "#e879f9" },
+            { protons: 79, neutrons: 118, electrons: 79, name: "Gold", symbol: "Au", color: "#fbbf24" }
+        ];
+        
+        // Hardcoded use cases to replace the Gemini API call
+        const ELEMENT_USE_CASES = {
+            "Helium": `<p class="text-sm font-bold mb-2">Common uses for Helium:</p><ul><li>Inflatable balloons and airships.</li><li>Cooling for medical devices like MRI machines.</li><li>Shielding gas for welding.</li></ul>`,
+            "Lithium": `<p class="text-sm font-bold mb-2">Common uses for Lithium:</p><ul><li>Rechargeable batteries for phones and EVs.</li><li>Glass and ceramics manufacturing.</li><li>Medications for mood stabilization.</li></ul>`,
+            "Beryllium": `<p class="text-sm font-bold mb-2">Common uses for Beryllium:</p><ul><li>Aerospace and defense components.</li><li>X-ray windows and detectors.</li><li>Specialized springs and electrical connectors.</li></ul>`,
+            "Boron": `<p class="text-sm font-bold mb-2">Common uses for Boron:</p><ul><li>Flame retardants.</li><li>Glass and ceramic production.</li><li>Detergents and cleaning products.</li></ul>`,
+            "Carbon": `<p class="text-sm font-bold mb-2">Common uses for Carbon:</p><ul><li>Diamonds and graphite.</li><li>Basis of all organic life and compounds.</li><li>Charcoal for fuel and filtration.</li></ul>`,
+            "Nitrogen": `<p class="text-sm font-bold mb-2">Common uses for Nitrogen:</p><ul><li>Cryogenic freezing.</li><li>Fertilizer production.</li><li>Inert gas in food packaging.</li></ul>`,
+            "Oxygen": `<p class="text-sm font-bold mb-2">Common uses for Oxygen:</p><ul><li>Breathing support and medical therapy.</li><li>Industrial combustion and steel production.</li><li>Rocket fuel oxidizer.</li></ul>`,
+            "Sodium": `<p class="text-sm font-bold mb-2">Common uses for Sodium:</p><ul><li>Table salt and food preservation.</li><li>Streetlights and vapor lamps.</li><li>Heat exchange in nuclear reactors.</li></ul>`,
+            "Magnesium": `<p class="text-sm font-bold mb-2">Common uses for Magnesium:</p><ul><li>Lightweight alloys for vehicles and aircraft.</li><li>Supplements and antacids.</li><li>Fire starters and flash photography.</li></ul>`,
+            "Aluminum": `<p class="text-sm font-bold mb-2">Common uses for Aluminum:</p><ul><li>Beverage cans and food packaging.</li><li>Aircraft and vehicle parts.</li><li>Building construction and window frames.</li></ul>`,
+            "Silicon": `<p class="text-sm font-bold mb-2">Common uses for Silicon:</p><ul><li>Semiconductors and microchips.</li><li>Component of glass and concrete.</li><li>Sealants and lubricants.</li></ul>`,
+            "Phosphorus": `<p class="text-sm font-bold mb-2">Common uses for Phosphorus:</p><ul><li>Fertilizers for agriculture.</li><li>Detergents and food additives.</li><li>Match heads and fireworks.</li></ul>`,
+            "Sulfur": `<p class="text-sm font-bold mb-2">Common uses for Sulfur:</p><ul><li>Sulfuric acid production for batteries.</li><li>Fertilizers and fungicides.</li><li>Gunpowder and vulcanization of rubber.</li></ul>`,
+            "Chlorine": `<p class="text-sm font-bold mb-2">Common uses for Chlorine:</p><ul><li>Water purification and swimming pool sanitation.</li><li>Manufacturing of plastics like PVC.</li><li>Solvents and cleaning products.</li></ul>`,
+            "Argon": `<p class="text-sm font-bold mb-2">Common uses for Argon:</p><ul><li>Inert shielding gas for welding.</li><li>Insulating gas in double-glazed windows.</li><li>Fill gas in incandescent light bulbs.</li></ul>`,
+            "Potassium": `<p class="text-sm font-bold mb-2">Common uses for Potassium:</p><ul><li>Fertilizer to support plant growth.</li><li>Electrolytes for proper nerve function.</li><li>Component in certain soaps and detergents.</li></ul>`,
+            "Calcium": `<p class="text-sm font-bold mb-2">Common uses for Calcium:</p><ul><li>Bones and teeth.</li><li>Cement and mortar.</li><li>Dietary supplements.</li></ul>`,
+            "Iron": `<p class="text-sm font-bold mb-2">Common uses for Iron:</p><ul><li>Primary component of steel.</li><li>Construction and manufacturing.</li><li>Magnetic materials.</li></ul>`,
+            "Copper": `<p class="text-sm font-bold mb-2">Common uses for Copper:</p><ul><li>Electrical wiring and plumbing.</li><li>Coins and decorative items.</li><li>Antimicrobial surfaces.</li></ul>`
+        };
+
+        let currentElementIndex = 0;
+
+        let particles = [];
+        let blackHoles = [];
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            atom.x = canvas.width / 2;
+            atom.y = canvas.height / 2;
+            targetPosition.x = atom.x;
+            targetPosition.y = atom.y;
+        }
+        
+        function initGame() {
+            isGameRunning = true;
+            isGameOver = false;
+            isPaused = false;
+            atom.x = canvas.width / 2;
+            atom.y = canvas.height / 2;
+            atom.protons = 0;
+            atom.neutrons = 0;
+            atom.electrons = 0;
+            atom.radius = ATOM_RADIUS;
+            atom.color = '#e0e7ff';
+            particles = [];
+            blackHoles = [];
+            currentElementIndex = 0;
+            
+            modal.classList.add('hidden');
+            restartBtn.classList.add('hidden');
+            pauseBtn.textContent = 'Pause';
+            geminiSummary.classList.add('hidden');
+            lastParticleSpawn = Date.now();
+            lastBlackHoleSpawn = Date.now();
+            lastUpdateTime = Date.now();
+            gameLoop();
+        }
+
+        function spawnParticle() {
+            const side = Math.floor(Math.random() * 4);
+            let x, y, vx, vy;
+            const initialRadius = PROTON_RADIUS > NEUTRON_RADIUS ? PROTON_RADIUS : NEUTRON_RADIUS;
+
+            if (side === 0) { // Top
+                x = Math.random() * canvas.width;
+                y = -initialRadius;
+                vx = (Math.random() - 0.5) * gameSpeed;
+                vy = Math.random() * gameSpeed;
+            } else if (side === 1) { // Right
+                x = canvas.width + initialRadius;
+                y = Math.random() * canvas.height;
+                vx = -Math.random() * gameSpeed;
+                vy = (Math.random() - 0.5) * gameSpeed;
+            } else if (side === 2) { // Bottom
+                x = Math.random() * canvas.width;
+                y = canvas.height + initialRadius;
+                vx = (Math.random() - 0.5) * gameSpeed;
+                vy = -Math.random() * gameSpeed;
+            } else { // Left
+                x = -initialRadius;
+                y = Math.random() * canvas.height;
+                vx = Math.random() * gameSpeed;
+                vy = (Math.random() - 0.5) * gameSpeed;
+            }
+
+            const type = Math.floor(Math.random() * 3);
+            let particleRadius;
+            if (type === 0) { // Proton
+                particleRadius = PROTON_RADIUS;
+            } else if (type === 1) { // Neutron
+                particleRadius = NEUTRON_RADIUS;
+            } else { // Electron
+                particleRadius = ELECTRON_RADIUS;
+            }
+            const particle = { x, y, vx, vy, radius: particleRadius, type };
+            particles.push(particle);
+        }
+
+        function spawnBlackHole() {
+            const side = Math.floor(Math.random() * 4);
+            let x, y, vx, vy;
+            const blackHoleRadius = Math.random() * 15 + 10;
+            const speed = Math.random() * 1 + 0.5;
+
+            if (side === 0) { // Top
+                x = Math.random() * canvas.width;
+                y = -blackHoleRadius;
+                vx = (Math.random() - 0.5) * speed;
+                vy = Math.random() * speed;
+            } else if (side === 1) { // Right
+                x = canvas.width + blackHoleRadius;
+                y = Math.random() * canvas.height;
+                vx = -Math.random() * speed;
+                vy = (Math.random() - 0.5) * speed;
+            } else if (side === 2) { // Bottom
+                x = Math.random() * canvas.width;
+                y = canvas.height + blackHoleRadius;
+                vx = (Math.random() - 0.5) * speed;
+                vy = -Math.random() * speed;
+            } else { // Left
+                x = -blackHoleRadius;
+                y = Math.random() * canvas.height;
+                vx = Math.random() * speed;
+                vy = (Math.random() - 0.5) * speed;
+            }
+            
+            blackHoles.push({ x, y, vx, vy, radius: blackHoleRadius, pulse: 0 });
+        }
+
+        function update() {
+            if (!isGameRunning || isPaused) return;
+
+            const now = Date.now();
+            const deltaTime = now - lastUpdateTime;
+            lastUpdateTime = now;
+
+            // Spawn particles
+            if (now - lastParticleSpawn > PARTICLE_SPAWN_RATE) {
+                spawnParticle();
+                lastParticleSpawn = now;
+            }
+
+            // Spawn black holes
+            if (now - lastBlackHoleSpawn > BLACK_HOLE_SPAWN_RATE) {
+                spawnBlackHole();
+                lastBlackHoleSpawn = now;
+            }
+
+            // Move atom towards target with increased sensitivity
+            const dx = targetPosition.x - atom.x;
+            const dy = targetPosition.y - atom.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance > 1) {
+                const moveSpeed = (gameSpeed / (atom.radius / ATOM_RADIUS)) * MOUSE_SENSITIVITY;
+                atom.x += (dx / distance) * moveSpeed;
+                atom.y += (dy / distance) * moveSpeed;
+            }
+            
+            // Update particles
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+            });
+
+            // Update black holes
+            blackHoles.forEach(bh => {
+                bh.x += bh.vx;
+                bh.y += bh.vy;
+                bh.pulse = Math.sin(Date.now() / 200) * 0.5 + 0.5;
+            });
+
+            checkCollisions();
+            
+            // Clean up off-screen particles
+            particles = particles.filter(p => 
+                p.x > -p.radius && p.x < canvas.width + p.radius &&
+                p.y > -p.radius && p.y < canvas.height + p.radius
+            );
+            
+            blackHoles = blackHoles.filter(bh =>
+                bh.x > -bh.radius * 2 && bh.x < canvas.width + bh.radius * 2 &&
+                bh.y > -bh.radius * 2 && bh.y < canvas.height + bh.radius * 2
+            );
+        }
+
+        function checkCollisions() {
+            // Particle collisions
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                const dx = p.x - atom.x;
+                const dy = p.y - atom.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < atom.radius + p.radius) {
+                    if (p.type === 0) { // Proton
+                        atom.protons++;
+                        atom.radius += 0.5;
+                        atom.color = '#ff6b6b';
+                    } else if (p.type === 1) { // Neutron
+                        atom.neutrons++;
+                        atom.radius += 0.25;
+                        atom.color = '#9ca3af';
+                    } else if (p.type === 2) { // Electron
+                        atom.electrons++;
+                        atom.color = '#3b82f6';
+                    }
+                    particles.splice(i, 1);
+                    createParticleEffect(p.x, p.y, p.type);
+                    checkFusion();
+                }
+            }
+            
+            // Black hole collisions
+            for (let i = blackHoles.length - 1; i >= 0; i--) {
+                const bh = blackHoles[i];
+                const dx = bh.x - atom.x;
+                const dy = bh.y - atom.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < atom.radius + bh.radius * 0.5) {
+                    endGame("defeat");
+                    return;
+                }
+            }
+        }
+        
+        function checkFusion() {
+            if (currentElementIndex >= elements.length - 1) {
+                return; // Already at the last element, nothing to fuse into
+            }
+
+            const nextElement = elements[currentElementIndex + 1];
+            
+            if (atom.protons >= nextElement.protons && atom.neutrons >= nextElement.neutrons && atom.electrons >= nextElement.electrons) {
+                currentElementIndex++;
+                const newElement = elements[currentElementIndex];
+
+                // Reset particle counts to the new element's required values
+                atom.protons = newElement.protons;
+                atom.neutrons = newElement.neutrons;
+                atom.electrons = newElement.electrons;
+                
+                // Update atom appearance based on the new element
+                atom.color = newElement.color;
+                atom.radius = ATOM_RADIUS + newElement.protons * 0.5 + newElement.neutrons * 0.25;
+                
+                if (currentElementIndex === elements.length - 1) {
+                    endGame("win");
+                } else {
+                    const nextNextElement = elements[currentElementIndex + 1];
+                    modalTitle.textContent = `You've created ${newElement.name}!`;
+                    modalMessage.textContent = `You have stabilized your atom. Collect new particles to begin your quest for ${nextNextElement.name}. You need ${nextNextElement.protons} protons, ${nextNextElement.neutrons} neutrons, and ${nextNextElement.electrons} electrons.`;
+                    modal.classList.remove('hidden');
+                    isGameRunning = false;
+                    pauseBtn.textContent = 'Resume';
+                    startBtn.textContent = 'Continue';
+
+                    // Use hardcoded use cases
+                    const useCases = ELEMENT_USE_CASES[newElement.name];
+                    if (useCases) {
+                        geminiSummary.innerHTML = useCases;
+                        geminiSummary.classList.remove('hidden');
+                    } else {
+                        geminiSummary.classList.add('hidden');
+                    }
+                }
+            }
+        }
+
+        function resumeGame() {
+            isGameRunning = true;
+            modal.classList.add('hidden');
+            pauseBtn.textContent = 'Pause';
+            gameLoop();
+        }
+        
+        function createParticleEffect(x, y, type) {
+            const effect = document.createElement('div');
+            effect.classList.add('particle-effect');
+            let color;
+            if (type === 0) color = '#ff6b6b'; // Proton
+            else if (type === 1) color = '#9ca3af'; // Neutron
+            else color = '#3b82f6'; // Electron
+            effect.style.backgroundColor = color;
+            effect.style.left = `${x}px`;
+            effect.style.top = `${y}px`;
+            document.body.appendChild(effect);
+            setTimeout(() => effect.remove(), 750);
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw atom
+            ctx.beginPath();
+            ctx.arc(atom.x, atom.y, atom.radius, 0, Math.PI * 2);
+            ctx.fillStyle = atom.color;
+            ctx.shadowColor = atom.color;
+            ctx.shadowBlur = 20;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.closePath();
+            
+            // Draw atom text
+            ctx.fillStyle = '#1a1e36';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = `${atom.radius * 0.6}px Inter`;
+            ctx.fillText(elements[currentElementIndex].symbol, atom.x, atom.y);
+
+            // Draw particles
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                let color;
+                let shadowBlur;
+
+                if (p.type === 0) {
+                    color = '#ff6b6b';
+                    shadowBlur = 10;
+                } else if (p.type === 1) {
+                    color = '#9ca3af';
+                    shadowBlur = 10;
+                } else {
+                    color = '#0ea5e9';
+                    shadowBlur = 20;
+                }
+                
+                ctx.fillStyle = color;
+                ctx.shadowColor = color;
+                ctx.shadowBlur = shadowBlur;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.closePath();
+            });
+            
+            // Draw black holes with glow
+            blackHoles.forEach(bh => {
+                // Outer glow
+                ctx.beginPath();
+                ctx.arc(bh.x, bh.y, bh.radius + bh.pulse * 5, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(180, 50, 255, ${0.1 + bh.pulse * 0.2})`;
+                ctx.shadowColor = 'rgba(180, 50, 255, 1)';
+                ctx.shadowBlur = 20 + bh.pulse * 10;
+                ctx.fill();
+                ctx.closePath();
+                ctx.shadowBlur = 0;
+
+                // Inner core
+                const gradient = ctx.createRadialGradient(bh.x, bh.y, 0, bh.x, bh.y, bh.radius);
+                gradient.addColorStop(0, '#000000');
+                gradient.addColorStop(0.5, '#1a1a1a');
+                gradient.addColorStop(1, '#0b0c1b');
+                ctx.beginPath();
+                ctx.arc(bh.x, bh.y, bh.radius, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                ctx.closePath();
+            });
+
+            updateUI();
+        }
+
+        function updateUI() {
+            elementNameEl.textContent = elements[currentElementIndex].name;
+            protonCountEl.textContent = atom.protons;
+            neutronCountEl.textContent = atom.neutrons;
+            electronCountEl.textContent = atom.electrons;
+        }
+
+        function endGame(outcome) {
+            isGameRunning = false;
+            isGameOver = true;
+            restartBtn.classList.remove('hidden');
+            pauseBtn.classList.add('hidden');
+            geminiSummary.classList.add('hidden');
+            
+            modal.classList.remove('hidden');
+            
+            if (outcome === "win") {
+                modalTitle.textContent = "You've created Gold!";
+                modalMessage.textContent = "Congratulations! You have mastered the art of alchemy. Your quest is complete!";
+                startBtn.textContent = "Play Again";
+            } else if (outcome === "defeat") {
+                modalTitle.textContent = "Quest Failed!";
+                modalMessage.textContent = "Your atom was consumed by a black hole. Try again!";
+                startBtn.textContent = "Try Again";
+                canvas.classList.add('shake-animation');
+            }
+        }
+
+        function gameLoop() {
+            if (!isGameRunning) return;
+            update();
+            render();
+            gameLoopId = requestAnimationFrame(gameLoop);
+        }
+
+        // Event Listeners
+        window.addEventListener('resize', resizeCanvas);
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            targetPosition.x = e.clientX - rect.left;
+            targetPosition.y = e.clientY - rect.top;
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            targetPosition.x = touch.clientX - rect.left;
+            targetPosition.y = touch.clientY - rect.top;
+        });
+
+        startBtn.addEventListener('click', () => {
+            if (isGameOver) {
+                canvas.classList.remove('shake-animation');
+                initGame();
+            } else {
+                initGame();
+            }
+        });
+        
+        restartBtn.addEventListener('click', () => {
+            canvas.classList.remove('shake-animation');
+            initGame();
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            if (isPaused) {
+                isPaused = false;
+                pauseBtn.textContent = 'Pause';
+                gameLoop();
+            } else {
+                isPaused = true;
+                pauseBtn.textContent = 'Resume';
+            }
+        });
+
+        musicToggleBtn.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicToggleBtn.textContent = 'Pause Music';
+            } else {
+                bgMusic.pause();
+                musicToggleBtn.textContent = 'Play Music';
+            }
+        });
+
+        volumeSlider.addEventListener('input', () => {
+            bgMusic.volume = volumeSlider.value;
+        });
+
+        window.onload = function() {
+            resizeCanvas();
+        };
+
+    </script>
+</body>
+</html>
