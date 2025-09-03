@@ -26,50 +26,51 @@
             background: radial-gradient(circle at center, #1b213b 0%, #0d0d1a 100%);
             border-radius: 1.5rem;
             box-shadow: 0 0 4rem rgba(100, 100, 255, 0.25);
-            padding: 1.5rem;
+            padding: 1rem;
             max-width: 1000px;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        
+
+        /* Canvas styling for responsiveness */
         canvas {
             border-radius: 1rem;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
             background-color: #0d0d1a;
             width: 100%;
             aspect-ratio: 1.5 / 1;
-            touch-action: none;
+            touch-action: none; /* Prevents default browser actions like pinch-to-zoom */
         }
-        
+
         .ui-panel {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.75rem; /* Reduced gap for smaller screens */
             width: 100%;
             margin-top: 1.5rem;
         }
-        
+
         .info-box {
             background-color: #1a1e36;
-            padding: 1rem 1.5rem;
+            padding: 0.75rem 1rem; /* Adjusted padding for smaller screens */
             border-radius: 0.75rem;
             text-align: center;
             flex-grow: 1;
-            min-width: 150px;
+            min-width: 120px; /* Adjusted min-width */
             box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
         }
-        
+
         .info-label {
-            font-size: 0.875rem;
+            font-size: 0.75rem; /* Smaller font size for mobile */
             color: #9ca3af;
         }
-        
+
         .info-value {
-            font-size: 1.25rem;
+            font-size: 1.125rem; /* Smaller font size for mobile */
             font-weight: bold;
             color: #e0e7ff;
             animation: pulse 1s infinite alternate;
@@ -81,7 +82,7 @@
         }
 
         .btn {
-            padding: 0.75rem 2rem;
+            padding: 0.6rem 1.5rem; /* Adjusted padding for smaller screens */
             border-radius: 9999px;
             font-weight: bold;
             transition: all 0.2s ease-in-out;
@@ -123,7 +124,7 @@
 
         .modal-content {
             background-color: #1a1e36;
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 1.5rem;
             text-align: center;
             box-shadow: 0 0 3rem rgba(100, 100, 255, 0.5);
@@ -139,7 +140,7 @@
             animation: fadeOut 0.75s forwards;
             pointer-events: none;
         }
-        
+
         @keyframes fadeOut {
             from { opacity: 1; transform: scale(1); }
             to { opacity: 0; transform: scale(2); }
@@ -186,9 +187,9 @@
 <body>
 
     <div class="game-container">
-        <h1 class="text-3xl font-bold mb-4">Gold Quest: The Alchemist's Journey</h1>
-        <p class="text-sm mb-4 text-center text-gray-400 max-w-lg">
-            Collect protons, neutrons, and electrons to build elements. Dodge the black holes and reach Gold. Click or tap to move your atom!
+        <h1 class="text-3xl font-bold mb-2">Gold Quest: The Alchemist's Journey</h1>
+        <p class="text-xs sm:text-sm mb-4 text-center text-gray-400 max-w-lg">
+            Collect protons, neutrons, and electrons to build elements. Dodge the black holes and reach Gold. Tap or drag your atom to move!
         </p>
         <canvas id="gameCanvas"></canvas>
         <div class="ui-panel">
@@ -222,8 +223,8 @@
 
     <div id="game-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 id="modal-title" class="text-3xl font-bold mb-4">Gold Quest</h2>
-            <p id="modal-message" class="mb-6 text-gray-300">
+            <h2 id="modal-title" class="text-2xl sm:text-3xl font-bold mb-4">Gold Quest</h2>
+            <p id="modal-message" class="mb-6 text-gray-300 text-sm sm:text-base">
                 You are a tiny, unstable atom, and your quest is to build the ultimate element: Gold!
                 <br>
                 Collect the glowing particles floating in space:
@@ -332,7 +333,7 @@
             "Aluminum": `<p class="text-sm font-bold mb-2">Common uses for Aluminum:</p><ul><li>Beverage cans and food packaging.</li><li>Aircraft and vehicle parts.</li><li>Building construction and window frames.</li></ul>`,
             "Silicon": `<p class="text-sm font-bold mb-2">Common uses for Silicon:</p><ul><li>Semiconductors and microchips.</li><li>Component of glass and concrete.</li><li>Sealants and lubricants.</li></ul>`,
             "Phosphorus": `<p class="text-sm font-bold mb-2">Common uses for Phosphorus:</p><ul><li>Fertilizers for agriculture.</li><li>Detergents and food additives.</li><li>Match heads and fireworks.</li></ul>`,
-            "Sulfur": `<p class="text-sm font-bold mb-2">Common uses for Sulfur:</p><ul><li>Sulfuric acid production for batteries.</li><li>Fertilizers and fungicides.</li><li>Gunpowder and vulcanization of rubber.</li></ul>`,
+            "Sulfur": `<p class="text-sm font-bold mb-2">Common uses for Sulfur:</p><ul><li>Sulfuric acid production for batteries.</li><li>Fertilizers and vulcanization of rubber.</li><li>Gunpowder and industrial processes.</li></ul>`,
             "Chlorine": `<p class="text-sm font-bold mb-2">Common uses for Chlorine:</p><ul><li>Water purification and swimming pool sanitation.</li><li>Manufacturing of plastics like PVC.</li><li>Solvents and cleaning products.</li></ul>`,
             "Argon": `<p class="text-sm font-bold mb-2">Common uses for Argon:</p><ul><li>Inert shielding gas for welding.</li><li>Insulating gas in double-glazed windows.</li><li>Fill gas in incandescent light bulbs.</li></ul>`,
             "Potassium": `<p class="text-sm font-bold mb-2">Common uses for Potassium:</p><ul><li>Fertilizer to support plant growth.</li><li>Electrolytes for proper nerve function.</li><li>Component in certain soaps and detergents.</li></ul>`,
@@ -346,6 +347,7 @@
         let particles = [];
         let blackHoles = [];
 
+        // This function now ensures the canvas dimensions are correctly set and resets the atom's position
         function resizeCanvas() {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
@@ -353,6 +355,7 @@
             atom.y = canvas.height / 2;
             targetPosition.x = atom.x;
             targetPosition.y = atom.y;
+            render(); // Rerender to show the atom in the new position
         }
         
         function initGame() {
@@ -372,6 +375,7 @@
             
             modal.classList.add('hidden');
             restartBtn.classList.add('hidden');
+            pauseBtn.classList.remove('hidden');
             pauseBtn.textContent = 'Pause';
             geminiSummary.classList.add('hidden');
             lastParticleSpawn = Date.now();
@@ -711,6 +715,10 @@
                 modalMessage.textContent = "Your atom was consumed by a black hole. Try again!";
                 startBtn.textContent = "Try Again";
                 canvas.classList.add('shake-animation');
+                // Remove the animation class after it completes so it can be re-triggered
+                canvas.addEventListener('animationend', () => {
+                    canvas.classList.remove('shake-animation');
+                }, { once: true });
             }
         }
 
@@ -724,31 +732,48 @@
         // Event Listeners
         window.addEventListener('resize', resizeCanvas);
 
-        canvas.addEventListener('mousemove', (e) => {
+        // Unified event handler for both mouse and touch
+        function handleInput(e) {
+            if (isPaused || !isGameRunning) return;
             const rect = canvas.getBoundingClientRect();
-            targetPosition.x = e.clientX - rect.left;
-            targetPosition.y = e.clientY - rect.top;
-        });
+            let clientX, clientY;
+
+            if (e.touches && e.touches.length > 0) {
+                // Handle touch events
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                // Handle mouse events
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+
+            targetPosition.x = clientX - rect.left;
+            targetPosition.y = clientY - rect.top;
+        }
         
+        canvas.addEventListener('mousemove', handleInput);
         canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            const touch = e.touches[0];
-            targetPosition.x = touch.clientX - rect.left;
-            targetPosition.y = touch.clientY - rect.top;
+            e.preventDefault(); // Prevents page scrolling on touch drag
+            handleInput(e);
         });
 
-        startBtn.addEventListener('click', () => {
-            if (isGameOver) {
-                canvas.classList.remove('shake-animation');
-                initGame();
-            } else {
-                initGame();
-            }
+        // Click/tap events for a single click without movement
+        canvas.addEventListener('mousedown', handleInput);
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents default touch behavior
+            handleInput(e);
         });
         
+        startBtn.addEventListener('click', () => {
+            if (isGameOver) {
+                initGame();
+            } else {
+                resumeGame();
+            }
+        });
+
         restartBtn.addEventListener('click', () => {
-            canvas.classList.remove('shake-animation');
             initGame();
         });
 
@@ -760,6 +785,7 @@
             } else {
                 isPaused = true;
                 pauseBtn.textContent = 'Resume';
+                cancelAnimationFrame(gameLoopId);
             }
         });
 
@@ -773,14 +799,14 @@
             }
         });
 
-        volumeSlider.addEventListener('input', () => {
-            bgMusic.volume = volumeSlider.value;
+        volumeSlider.addEventListener('input', (e) => {
+            bgMusic.volume = e.target.value;
         });
 
+        // Initialize the canvas size and game state on page load
         window.onload = function() {
             resizeCanvas();
-        };
-
+        }
     </script>
 </body>
 </html>
