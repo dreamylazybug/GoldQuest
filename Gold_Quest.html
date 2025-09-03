@@ -1,0 +1,802 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2299.77">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Gold Quest: The Alchemist's Journey&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #0b0c1b;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #e0e7ff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-x: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>touch-action: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.game-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: radial-gradient(circle at center, #1b213b 0%, #0d0d1a 100%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 4rem rgba(100, 100, 255, 0.25);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 1000px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>canvas {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: inset 0 0 10px rgba(0,0,0,0.5);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #0d0d1a;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>aspect-ratio: 1.5 / 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>touch-action: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.ui-panel {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-wrap: wrap;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.info-box {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #1a1e36;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-grow: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-width: 150px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: inset 0 0 8px rgba(0,0,0,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.info-label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.875rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #9ca3af;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.info-value {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.25rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #e0e7ff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: pulse 1s infinite alternate;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes pulse {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { transform: scale(1); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { transform: scale(1.05); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.75rem 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 9999px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.2s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #6d28d9;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-grow: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-width: 120px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #7c3aed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-2px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn:disabled {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #4a4a6e;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: not-allowed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.modal-overlay {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(0, 0, 0, 0.75);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(5px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 100;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.modal-content {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #1a1e36;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 2.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 3rem rgba(100, 100, 255, 0.5);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 90%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #e0e7ff;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.particle-effect {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeOut 0.75s forwards;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeOut {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 1; transform: scale(1); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 0; transform: scale(2); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.shake-animation {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translate3d(0, 0, 0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>backface-visibility: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>perspective: 1000px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes shake {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>10%, 90% { transform: translate3d(-1px, 0, 0); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>20%, 80% { transform: translate3d(2px, 0, 0); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>40%, 60% { transform: translate3d(4px, 0, 0); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#gameCanvas {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.gemini-summary {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #0d0d1a;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: left;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: inset 0 0 8px rgba(0,0,0,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>white-space: pre-wrap;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.music-controls {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-wrap: wrap;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="game-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 class="text-3xl font-bold mb-4"&gt;Gold Quest: The Alchemist's Journey&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="text-sm mb-4 text-center text-gray-400 max-w-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Collect protons, neutrons, and electrons to build elements. Dodge the black holes and reach Gold. Click or tap to move your atom!</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;canvas id="gameCanvas"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="ui-panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="info-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="info-label"&gt;Current Element&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="element-name" class="info-value"&gt;Hydrogen&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="info-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="info-label"&gt;Protons&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="proton-count" class="info-value"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="info-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="info-label"&gt;Neutrons&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="neutron-count" class="info-value"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="info-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="info-label"&gt;Electrons&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="electron-count" class="info-value"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="ui-panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="restart-btn" class="btn hidden"&gt;Restart Game&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="pause-btn" class="btn"&gt;Pause&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="music-controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" loop autoplay&gt;&lt;/audio&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="music-toggle-btn" class="btn"&gt;Pause Music&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5" class="w-24"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="game-modal" class="modal-overlay"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="modal-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2 id="modal-title" class="text-3xl font-bold mb-4"&gt;Gold Quest&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p id="modal-message" class="mb-6 text-gray-300"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>You are a tiny, unstable atom, and your quest is to build the ultimate element: Gold!</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Collect the glowing particles floating in space:</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="text-red-400 font-bold"&gt;Protons&lt;/span&gt; increase your atomic number.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="text-gray-400 font-bold"&gt;Neutrons&lt;/span&gt; stabilize your nucleus.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="text-blue-400 font-bold"&gt;Electrons&lt;/span&gt; are needed for balance.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Avoid the pulsating black holes, or your quest will end!</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="gemini-summary" class="gemini-summary hidden"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="start-btn" class="btn"&gt;Start Journey&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const canvas = document.getElementById('gameCanvas');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ctx = canvas.getContext('2d');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const modal = document.getElementById('game-modal');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const modalTitle = document.getElementById('modal-title');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const modalMessage = document.getElementById('modal-message');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const geminiSummary = document.getElementById('gemini-summary');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const startBtn = document.getElementById('start-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const restartBtn = document.getElementById('restart-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const pauseBtn = document.getElementById('pause-btn');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const elementNameEl = document.getElementById('element-name');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const protonCountEl = document.getElementById('proton-count');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const neutronCountEl = document.getElementById('neutron-count');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const electronCountEl = document.getElementById('electron-count');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Music controls</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const bgMusic = document.getElementById('bg-music');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const musicToggleBtn = document.getElementById('music-toggle-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const volumeSlider = document.getElementById('volume-slider');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const PROTON_RADIUS = 7;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const NEUTRON_RADIUS = 7;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ELECTRON_RADIUS = 6;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ATOM_RADIUS = 15;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const INITIAL_SPEED = 2;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const MOUSE_SENSITIVITY = 1.5;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const PARTICLE_SPAWN_RATE = 100; // milliseconds</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const BLACK_HOLE_SPAWN_RATE = 2000; // milliseconds</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let gameLoopId;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isGameRunning = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isGameOver = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isPaused = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let gameSpeed = INITIAL_SPEED;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let lastParticleSpawn = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let lastBlackHoleSpawn = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let lastUpdateTime = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let targetPosition = { x: 0, y: 0 };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let atom = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>x: 0,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>y: 0,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>radius: ATOM_RADIUS,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>protons: 0,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>neutrons: 0,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>electrons: 0,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: '#e0e7ff',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const elements = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 1, neutrons: 0, electrons: 1, name: "Hydrogen", symbol: "H", color: "#60a5fa" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 2, neutrons: 2, electrons: 2, name: "Helium", symbol: "He", color: "#f87171" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 3, neutrons: 4, electrons: 3, name: "Lithium", symbol: "Li", color: "#fcd34d" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 4, neutrons: 5, electrons: 4, name: "Beryllium", symbol: "Be", color: "#a78bfa" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 5, neutrons: 6, electrons: 5, name: "Boron", symbol: "B", color: "#34d399" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 6, neutrons: 6, electrons: 6, name: "Carbon", symbol: "C", color: "#fca5a5" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 7, neutrons: 7, electrons: 7, name: "Nitrogen", symbol: "N", color: "#bfdbfe" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 8, neutrons: 8, electrons: 8, name: "Oxygen", symbol: "O", color: "#c084fc" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 11, neutrons: 12, electrons: 11, name: "Sodium", symbol: "Na", color: "#fcd34d" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 12, neutrons: 12, electrons: 12, name: "Magnesium", symbol: "Mg", color: "#99f6e4" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// New intermediate elements for better progression</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 13, neutrons: 14, electrons: 13, name: "Aluminum", symbol: "Al", color: "#d1d5db" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 14, neutrons: 14, electrons: 14, name: "Silicon", symbol: "Si", color: "#8b5cf6" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 15, neutrons: 16, electrons: 15, name: "Phosphorus", symbol: "P", color: "#fb7185" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 16, neutrons: 16, electrons: 16, name: "Sulfur", symbol: "S", color: "#fcd34d" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 17, neutrons: 18, electrons: 17, name: "Chlorine", symbol: "Cl", color: "#a78bfa" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 18, neutrons: 22, electrons: 18, name: "Argon", symbol: "Ar", color: "#93c5fd" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 19, neutrons: 20, electrons: 19, name: "Potassium", symbol: "K", color: "#818cf8" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 20, neutrons: 20, electrons: 20, name: "Calcium", symbol: "Ca", color: "#fb923c" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 26, neutrons: 30, electrons: 26, name: "Iron", symbol: "Fe", color: "#d1d5db" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 29, neutrons: 35, electrons: 29, name: "Copper", symbol: "Cu", color: "#e879f9" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ protons: 79, neutrons: 118, electrons: 79, name: "Gold", symbol: "Au", color: "#fbbf24" }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Hardcoded use cases to replace the Gemini API call</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ELEMENT_USE_CASES = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Helium": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Helium:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Inflatable balloons and airships.&lt;/li&gt;&lt;li&gt;Cooling for medical devices like MRI machines.&lt;/li&gt;&lt;li&gt;Shielding gas for welding.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Lithium": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Lithium:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Rechargeable batteries for phones and EVs.&lt;/li&gt;&lt;li&gt;Glass and ceramics manufacturing.&lt;/li&gt;&lt;li&gt;Medications for mood stabilization.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Beryllium": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Beryllium:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Aerospace and defense components.&lt;/li&gt;&lt;li&gt;X-ray windows and detectors.&lt;/li&gt;&lt;li&gt;Specialized springs and electrical connectors.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Boron": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Boron:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Flame retardants.&lt;/li&gt;&lt;li&gt;Glass and ceramic production.&lt;/li&gt;&lt;li&gt;Detergents and cleaning products.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Carbon": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Carbon:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Diamonds and graphite.&lt;/li&gt;&lt;li&gt;Basis of all organic life and compounds.&lt;/li&gt;&lt;li&gt;Charcoal for fuel and filtration.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nitrogen": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Nitrogen:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Cryogenic freezing.&lt;/li&gt;&lt;li&gt;Fertilizer production.&lt;/li&gt;&lt;li&gt;Inert gas in food packaging.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Oxygen": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Oxygen:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Breathing support and medical therapy.&lt;/li&gt;&lt;li&gt;Industrial combustion and steel production.&lt;/li&gt;&lt;li&gt;Rocket fuel oxidizer.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sodium": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Sodium:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Table salt and food preservation.&lt;/li&gt;&lt;li&gt;Streetlights and vapor lamps.&lt;/li&gt;&lt;li&gt;Heat exchange in nuclear reactors.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Magnesium": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Magnesium:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Lightweight alloys for vehicles and aircraft.&lt;/li&gt;&lt;li&gt;Supplements and antacids.&lt;/li&gt;&lt;li&gt;Fire starters and flash photography.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Aluminum": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Aluminum:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Beverage cans and food packaging.&lt;/li&gt;&lt;li&gt;Aircraft and vehicle parts.&lt;/li&gt;&lt;li&gt;Building construction and window frames.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Silicon": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Silicon:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Semiconductors and microchips.&lt;/li&gt;&lt;li&gt;Component of glass and concrete.&lt;/li&gt;&lt;li&gt;Sealants and lubricants.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Phosphorus": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Phosphorus:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Fertilizers for agriculture.&lt;/li&gt;&lt;li&gt;Detergents and food additives.&lt;/li&gt;&lt;li&gt;Match heads and fireworks.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sulfur": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Sulfur:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Sulfuric acid production for batteries.&lt;/li&gt;&lt;li&gt;Fertilizers and fungicides.&lt;/li&gt;&lt;li&gt;Gunpowder and vulcanization of rubber.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Chlorine": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Chlorine:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Water purification and swimming pool sanitation.&lt;/li&gt;&lt;li&gt;Manufacturing of plastics like PVC.&lt;/li&gt;&lt;li&gt;Solvents and cleaning products.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Argon": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Argon:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Inert shielding gas for welding.&lt;/li&gt;&lt;li&gt;Insulating gas in double-glazed windows.&lt;/li&gt;&lt;li&gt;Fill gas in incandescent light bulbs.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Potassium": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Potassium:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Fertilizer to support plant growth.&lt;/li&gt;&lt;li&gt;Electrolytes for proper nerve function.&lt;/li&gt;&lt;li&gt;Component in certain soaps and detergents.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Calcium": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Calcium:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Bones and teeth.&lt;/li&gt;&lt;li&gt;Cement and mortar.&lt;/li&gt;&lt;li&gt;Dietary supplements.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Iron": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Iron:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Primary component of steel.&lt;/li&gt;&lt;li&gt;Construction and manufacturing.&lt;/li&gt;&lt;li&gt;Magnetic materials.&lt;/li&gt;&lt;/ul&gt;`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Copper": `&lt;p class="text-sm font-bold mb-2"&gt;Common uses for Copper:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Electrical wiring and plumbing.&lt;/li&gt;&lt;li&gt;Coins and decorative items.&lt;/li&gt;&lt;li&gt;Antimicrobial surfaces.&lt;/li&gt;&lt;/ul&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentElementIndex = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let particles = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let blackHoles = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function resizeCanvas() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>canvas.width = canvas.offsetWidth;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>canvas.height = canvas.offsetHeight;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.x = canvas.width / 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.y = canvas.height / 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>targetPosition.x = atom.x;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>targetPosition.y = atom.y;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function initGame() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isGameRunning = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isGameOver = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isPaused = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.x = canvas.width / 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.y = canvas.height / 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.protons = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.neutrons = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.electrons = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.radius = ATOM_RADIUS;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>atom.color = '#e0e7ff';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>particles = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>blackHoles = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentElementIndex = 0;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>modal.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>restartBtn.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pauseBtn.textContent = 'Pause';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>geminiSummary.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lastParticleSpawn = Date.now();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lastBlackHoleSpawn = Date.now();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lastUpdateTime = Date.now();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gameLoop();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function spawnParticle() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const side = Math.floor(Math.random() * 4);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let x, y, vx, vy;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const initialRadius = PROTON_RADIUS &gt; NEUTRON_RADIUS ? PROTON_RADIUS : NEUTRON_RADIUS;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (side === 0) { // Top</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x = Math.random() * canvas.width;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y = -initialRadius;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vx = (Math.random() - 0.5) * gameSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vy = Math.random() * gameSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (side === 1) { // Right</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x = canvas.width + initialRadius;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y = Math.random() * canvas.height;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vx = -Math.random() * gameSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vy = (Math.random() - 0.5) * gameSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (side === 2) { // Bottom</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x = Math.random() * canvas.width;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y = canvas.height + initialRadius;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vx = (Math.random() - 0.5) * gameSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vy = -Math.random() * gameSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else { // Left</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x = -initialRadius;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y = Math.random() * canvas.height;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vx = Math.random() * gameSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vy = (Math.random() - 0.5) * gameSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const type = Math.floor(Math.random() * 3);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let particleRadius;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (type === 0) { // Proton</p>
+<p class="p1"><span class="Apple-converted-space">                </span>particleRadius = PROTON_RADIUS;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (type === 1) { // Neutron</p>
+<p class="p1"><span class="Apple-converted-space">                </span>particleRadius = NEUTRON_RADIUS;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else { // Electron</p>
+<p class="p1"><span class="Apple-converted-space">                </span>particleRadius = ELECTRON_RADIUS;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const particle = { x, y, vx, vy, radius: particleRadius, type };</p>
+<p class="p1"><span class="Apple-converted-space">            </span>particles.push(particle);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function spawnBlackHole() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const side = Math.floor(Math.random() * 4);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let x, y, vx, vy;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const blackHoleRadius = Math.random() * 15 + 10;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const speed = Math.random() * 1 + 0.5;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (side === 0) { // Top</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x = Math.random() * canvas.width;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y = -blackHoleRadius;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vx = (Math.random() - 0.5) * speed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vy = Math.random() * speed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (side === 1) { // Right</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x = canvas.width + blackHoleRadius;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y = Math.random() * canvas.height;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vx = -Math.random() * speed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vy = (Math.random() - 0.5) * speed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (side === 2) { // Bottom</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x = Math.random() * canvas.width;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y = canvas.height + blackHoleRadius;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vx = (Math.random() - 0.5) * speed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vy = -Math.random() * speed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else { // Left</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x = -blackHoleRadius;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y = Math.random() * canvas.height;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vx = Math.random() * speed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vy = (Math.random() - 0.5) * speed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>blackHoles.push({ x, y, vx, vy, radius: blackHoleRadius, pulse: 0 });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function update() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!isGameRunning || isPaused) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const now = Date.now();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const deltaTime = now - lastUpdateTime;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lastUpdateTime = now;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Spawn particles</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (now - lastParticleSpawn &gt; PARTICLE_SPAWN_RATE) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>spawnParticle();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>lastParticleSpawn = now;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Spawn black holes</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (now - lastBlackHoleSpawn &gt; BLACK_HOLE_SPAWN_RATE) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>spawnBlackHole();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>lastBlackHoleSpawn = now;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Move atom towards target with increased sensitivity</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const dx = targetPosition.x - atom.x;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const dy = targetPosition.y - atom.y;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const distance = Math.sqrt(dx * dx + dy * dy);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (distance &gt; 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const moveSpeed = (gameSpeed / (atom.radius / ATOM_RADIUS)) * MOUSE_SENSITIVITY;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>atom.x += (dx / distance) * moveSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>atom.y += (dy / distance) * moveSpeed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Update particles</p>
+<p class="p1"><span class="Apple-converted-space">            </span>particles.forEach(p =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>p.x += p.vx;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>p.y += p.vy;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Update black holes</p>
+<p class="p1"><span class="Apple-converted-space">            </span>blackHoles.forEach(bh =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bh.x += bh.vx;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bh.y += bh.vy;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bh.pulse = Math.sin(Date.now() / 200) * 0.5 + 0.5;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>checkCollisions();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Clean up off-screen particles</p>
+<p class="p1"><span class="Apple-converted-space">            </span>particles = particles.filter(p =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>p.x &gt; -p.radius &amp;&amp; p.x &lt; canvas.width + p.radius &amp;&amp;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>p.y &gt; -p.radius &amp;&amp; p.y &lt; canvas.height + p.radius</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>blackHoles = blackHoles.filter(bh =&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bh.x &gt; -bh.radius * 2 &amp;&amp; bh.x &lt; canvas.width + bh.radius * 2 &amp;&amp;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bh.y &gt; -bh.radius * 2 &amp;&amp; bh.y &lt; canvas.height + bh.radius * 2</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function checkCollisions() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Particle collisions</p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (let i = particles.length - 1; i &gt;= 0; i--) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const p = particles[i];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const dx = p.x - atom.x;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const dy = p.y - atom.y;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const distance = Math.sqrt(dx * dx + dy * dy);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (distance &lt; atom.radius + p.radius) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (p.type === 0) { // Proton</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>atom.protons++;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>atom.radius += 0.5;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>atom.color = '#ff6b6b';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else if (p.type === 1) { // Neutron</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>atom.neutrons++;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>atom.radius += 0.25;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>atom.color = '#9ca3af';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else if (p.type === 2) { // Electron</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>atom.electrons++;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>atom.color = '#3b82f6';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>particles.splice(i, 1);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>createParticleEffect(p.x, p.y, p.type);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>checkFusion();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Black hole collisions</p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (let i = blackHoles.length - 1; i &gt;= 0; i--) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const bh = blackHoles[i];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const dx = bh.x - atom.x;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const dy = bh.y - atom.y;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const distance = Math.sqrt(dx * dx + dy * dy);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (distance &lt; atom.radius + bh.radius * 0.5) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>endGame("defeat");</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function checkFusion() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentElementIndex &gt;= elements.length - 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return; // Already at the last element, nothing to fuse into</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const nextElement = elements[currentElementIndex + 1];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (atom.protons &gt;= nextElement.protons &amp;&amp; atom.neutrons &gt;= nextElement.neutrons &amp;&amp; atom.electrons &gt;= nextElement.electrons) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>currentElementIndex++;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const newElement = elements[currentElementIndex];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Reset particle counts to the new element's required values</p>
+<p class="p1"><span class="Apple-converted-space">                </span>atom.protons = newElement.protons;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>atom.neutrons = newElement.neutrons;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>atom.electrons = newElement.electrons;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Update atom appearance based on the new element</p>
+<p class="p1"><span class="Apple-converted-space">                </span>atom.color = newElement.color;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>atom.radius = ATOM_RADIUS + newElement.protons * 0.5 + newElement.neutrons * 0.25;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentElementIndex === elements.length - 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>endGame("win");</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const nextNextElement = elements[currentElementIndex + 1];</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>modalTitle.textContent = `You've created ${newElement.name}!`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>modalMessage.textContent = `You have stabilized your atom. Collect new particles to begin your quest for ${nextNextElement.name}. You need ${nextNextElement.protons} protons, ${nextNextElement.neutrons} neutrons, and ${nextNextElement.electrons} electrons.`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>modal.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>isGameRunning = false;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>pauseBtn.textContent = 'Resume';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>startBtn.textContent = 'Continue';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Use hardcoded use cases</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const useCases = ELEMENT_USE_CASES[newElement.name];</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (useCases) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>geminiSummary.innerHTML = useCases;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>geminiSummary.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>geminiSummary.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function resumeGame() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isGameRunning = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>modal.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pauseBtn.textContent = 'Pause';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gameLoop();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function createParticleEffect(x, y, type) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const effect = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>effect.classList.add('particle-effect');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let color;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (type === 0) color = '#ff6b6b'; // Proton</p>
+<p class="p1"><span class="Apple-converted-space">            </span>else if (type === 1) color = '#9ca3af'; // Neutron</p>
+<p class="p1"><span class="Apple-converted-space">            </span>else color = '#3b82f6'; // Electron</p>
+<p class="p1"><span class="Apple-converted-space">            </span>effect.style.backgroundColor = color;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>effect.style.left = `${x}px`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>effect.style.top = `${y}px`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.body.appendChild(effect);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; effect.remove(), 750);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function render() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.clearRect(0, 0, canvas.width, canvas.height);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Draw atom</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.arc(atom.x, atom.y, atom.radius, 0, Math.PI * 2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.fillStyle = atom.color;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.shadowColor = atom.color;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.shadowBlur = 20;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.shadowBlur = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.closePath();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Draw atom text</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.fillStyle = '#1a1e36';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.textAlign = 'center';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.textBaseline = 'middle';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.font = `${atom.radius * 0.6}px Inter`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.fillText(elements[currentElementIndex].symbol, atom.x, atom.y);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Draw particles</p>
+<p class="p1"><span class="Apple-converted-space">            </span>particles.forEach(p =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let color;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let shadowBlur;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (p.type === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>color = '#ff6b6b';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>shadowBlur = 10;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (p.type === 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>color = '#9ca3af';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>shadowBlur = 10;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>color = '#0ea5e9';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>shadowBlur = 20;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.fillStyle = color;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.shadowColor = color;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.shadowBlur = shadowBlur;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.shadowBlur = 0;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.closePath();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Draw black holes with glow</p>
+<p class="p1"><span class="Apple-converted-space">            </span>blackHoles.forEach(bh =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Outer glow</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.arc(bh.x, bh.y, bh.radius + bh.pulse * 5, 0, Math.PI * 2);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.fillStyle = `rgba(180, 50, 255, ${0.1 + bh.pulse * 0.2})`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.shadowColor = 'rgba(180, 50, 255, 1)';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.shadowBlur = 20 + bh.pulse * 10;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.closePath();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.shadowBlur = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Inner core</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const gradient = ctx.createRadialGradient(bh.x, bh.y, 0, bh.x, bh.y, bh.radius);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gradient.addColorStop(0, '#000000');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gradient.addColorStop(0.5, '#1a1a1a');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gradient.addColorStop(1, '#0b0c1b');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.arc(bh.x, bh.y, bh.radius, 0, Math.PI * 2);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.fillStyle = gradient;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.closePath();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>updateUI();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateUI() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>elementNameEl.textContent = elements[currentElementIndex].name;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>protonCountEl.textContent = atom.protons;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>neutronCountEl.textContent = atom.neutrons;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>electronCountEl.textContent = atom.electrons;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function endGame(outcome) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isGameRunning = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isGameOver = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>restartBtn.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pauseBtn.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>geminiSummary.classList.add('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>modal.classList.remove('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (outcome === "win") {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>modalTitle.textContent = "You've created Gold!";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>modalMessage.textContent = "Congratulations! You have mastered the art of alchemy. Your quest is complete!";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>startBtn.textContent = "Play Again";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (outcome === "defeat") {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>modalTitle.textContent = "Quest Failed!";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>modalMessage.textContent = "Your atom was consumed by a black hole. Try again!";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>startBtn.textContent = "Try Again";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>canvas.classList.add('shake-animation');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function gameLoop() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!isGameRunning) return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>update();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gameLoopId = requestAnimationFrame(gameLoop);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Event Listeners</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('resize', resizeCanvas);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>canvas.addEventListener('mousemove', (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const rect = canvas.getBoundingClientRect();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>targetPosition.x = e.clientX - rect.left;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>targetPosition.y = e.clientY - rect.top;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>canvas.addEventListener('touchmove', (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const rect = canvas.getBoundingClientRect();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const touch = e.touches[0];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>targetPosition.x = touch.clientX - rect.left;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>targetPosition.y = touch.clientY - rect.top;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>startBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isGameOver) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>canvas.classList.remove('shake-animation');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>initGame();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>initGame();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>restartBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>canvas.classList.remove('shake-animation');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>initGame();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>pauseBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isPaused) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isPaused = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>pauseBtn.textContent = 'Pause';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gameLoop();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isPaused = true;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>pauseBtn.textContent = 'Resume';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>musicToggleBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (bgMusic.paused) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bgMusic.play();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>musicToggleBtn.textContent = 'Pause Music';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bgMusic.pause();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>musicToggleBtn.textContent = 'Play Music';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>volumeSlider.addEventListener('input', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bgMusic.volume = volumeSlider.value;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.onload = function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>resizeCanvas();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
